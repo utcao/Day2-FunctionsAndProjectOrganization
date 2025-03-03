@@ -53,3 +53,34 @@ def fun():
 x = 10
 fun()
 ```
+
+## module
+
+```text
+├── scripts/
+|   └── calculate_psths.py
+|
+├── src/
+|   ├── project_name/
+|   |   ├── __init__.py
+|   |   └── utils.py
+|   |
+|   └── <module>.py
+```
+
+
+
+
+`__init__.py` is essential to identify the package, which is usually put `src/package-name`.
+
+```bash
+
+pixi
+install -e
+```
+
+pip install the library from local
+
+
+pip will install packages into `envs/default/lib/site-packages` of a given conda env
+

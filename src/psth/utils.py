@@ -47,9 +47,9 @@ def self_merge(cells, spikes, trials):
         # 
     )
 
-def plot_psths(psth):
+def plot_psths(psth, path='PSTHs.png'):
     import seaborn as sns
     g = sns.FacetGrid(data=psth, col='brain_area', col_wrap=2)
     g.map_dataframe(sns.lineplot, x='time', y='avg_spike_count', hue='contrast_left')
     g.add_legend()
-    g.savefig('PSTHs.png')
+    g.savefig(path)

@@ -1,29 +1,30 @@
 
 # %% Script Parameters
+import psth
 
 url = 'https://uni-bonn.sciebo.de/s/oTfGigwXQ4g0raW'
-filename = 'data.nc'
+filename = 'data/data.nc'
 
 # %% Download Data
 # Exercise (Example): Make a download_data(url, filename) function:
 
-from scripts.utils import download_data   
+# from scripts.utils import download_data   
 
-download_data(url=url, filename=filename)
+psth.download_data(url=url, filename=filename)
 
 # %% Load Data
 # Exercise: Make a `load_data(filename)` function, returning the `dset` variable.
-from scripts.utils import load_data
-dset = load_data(filename)
+# from scripts.psth import load_data
+dset = psth.load_data(filename)
 print(dset)
 # %% Extract Experiment-Level Data
 # Exercise: Make an `extract_trials(filename)` function, returning the `trials` variable.
-from scripts.utils import extract_trials
-trials = extract_trials(filename)
+# from scripts.psth import extract_trials
+trials = psth.extract_trials(filename)
 print(trials)
 # %% Extract Spike-Time Data
 # Exercise: Make an `extract_spikes(filename)` function, returning the `spikes` variable.
-dset = load_data(filename)
+dset = psth.load_data(filename)
 spikes = dset[['spike_trial', 'spike_cell', 'spike_time']].to_dataframe()
 spikes
 
@@ -33,19 +34,19 @@ spikes
 
 import xarray as xr
 
-dset = load_data(filename)
+dset = psth.load_data(filename)
 cells = dset['brain_groups'].to_dataframe()
 cells
 
 # %% Merge and Compress Extracted Data
 # Exercise: Make a `merge_data(trials, cells, spikes)` function, returning the `merged` variable.
-from scripts.utils import self_merge
-merged = self_merge(cells, spikes, trials)
+# from scripts.psth import self_merge
+merged = psth.self_merge(cells, spikes, trials)
 merged.info()
 
 
 
-# %% Calculate Time Bins for PSTH
+# %% Calculate Time Bins for psth
 # Exercise: Make a `compute_time_bins(time, bin_interval)` function, returning the `time_bins` variable.
 
 import numpy as np
@@ -63,32 +64,32 @@ filtered = merged[merged['contrast_right'] == 0]
 print(f"Filtered out {len(merged) - len(filtered)} ({len(filtered) / len(merged):.2%}) of spikes in dataset.")
 filtered
 
-# %% Make PSTHs
+# %% Make psths
 # Exercise: Make a `compute_psths(data, time_bins)` function here, returning the `psth` variable.
 
-psth = (
+psth_df = (
     filtered
     .groupby([time_bins, 'trial_id', 'contrast_left', 'cell_id', 'brain_area'], observed=True, )
     .size()
     .rename('spike_count')
     .reset_index()
 )
-psth
-psth = (
-    psth
+psth_df
+psth_df = (
+    psth_df
     .groupby(['time', 'contrast_left', 'brain_area'], observed=True)
     .spike_count
     .mean()
     .rename('avg_spike_count')
     .reset_index()
 )
-psth
-psth['avg_spike_rate'] = psth['avg_spike_count'] * bin_interval
-psth
+psth_df
+psth_df['avg_spike_rate'] = psth_df['avg_spike_count'] * bin_interval
+psth_df
 
 
-# %% Plot PSTHs
+# %% Plot psths
 # Make a `plot_psths(psth)` function here, returning the `g` variable.
-from scripts.utils import plot_psths
-plot_psths(psth)
+# from scripts.psth import plot_psths
+psth.plot_psths(psth_df, path='results/utilss.png')
 

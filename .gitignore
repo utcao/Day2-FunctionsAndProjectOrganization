@@ -11,5 +11,8 @@ venv
 *.nc
 
 # Results
-PSTHs.png
+results/*
+
+__init__.py
+*.pyc
 aa.py

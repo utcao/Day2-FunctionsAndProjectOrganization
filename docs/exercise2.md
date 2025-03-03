@@ -55,12 +55,12 @@ version = "v0.0.1"
 ## Instructions
 
 1. Refactor Functions out to Modules: 
-    1. Move the functions you created in Exercise 1 to a module called `utils.py`, right next to the script.
-    2. Modify the script so that they import the functions from the module.
-    3. Make sure the script still runs.
-    4. Make a git commit to save the success.
+    1. ~~Move the functions you created in Exercise 1 to a module called `utils.py`, right next to the script.~~
+    2. ~~Modify the script so that they import the functions from the module.~~
+    3. ~~Make sure the script still runs.~~
+    4. ~~Make a git commit to save the success.~~
 2. Refactor the Project into the subfolders mentioned in the reference above.
-    1. Move the files into folders.
+    1. ~~Move the files into folders.~~
     2. The script should not work anymore, since the functions should be in `src/psth/` and the script should be in `scripts/`, making it hard for the script to find the functions.
     3. Write a minimal `pyproject.toml` file using the reference above and use it to install the `psth` package into the project. 
     4. Modify the script to import from `psth` to get the functions.  Now, the script should work again.
