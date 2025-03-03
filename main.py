@@ -4,8 +4,7 @@
 # %% Download Data
 from pathlib import Path
 import owncloud
-# url = 'https://uni-bonn.sciebo.de/s/OHGmJVdmMS8TITV'
-# url = 'https://uni-bonn.sciebo.de/s/3ladn8YIQclZjHg'
+
 url = 'https://uni-bonn.sciebo.de/s/oTfGigwXQ4g0raW'
 client = owncloud.Client.from_public_link(url)
 client.get_file('/', 'data.nc')
@@ -59,7 +58,7 @@ merged = (merged
     # 
 )
 merged.info()
-# .rename(columns={'spike_trial': 'trial'})
+
 
 # %% Calculate Time Bins for PSTH
 import numpy as np
@@ -96,16 +95,11 @@ psth
 psth['avg_spike_rate'] = psth['avg_spike_count'] * bin_interval
 psth
 
+
 # %% Plot PSTHs
 import seaborn as sns
 g = sns.FacetGrid(data=psth, col='brain_area', col_wrap=2)
-# sns.lineplot(data=)
 g.map_dataframe(sns.lineplot, x='time', y='avg_spike_count', hue='contrast_left')
 g.add_legend()
-# psth_data = spike_counts.unstack().unstack()
-# avg_spike_counts.index
 g.savefig('PSTHs.png')
 
-
-
-# %%
