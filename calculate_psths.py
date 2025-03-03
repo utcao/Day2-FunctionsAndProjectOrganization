@@ -44,6 +44,7 @@ merged = self_merge(cells, spikes, trials)
 merged.info()
 
 
+
 # %% Calculate Time Bins for PSTH
 # Exercise: Make a `compute_time_bins(time, bin_interval)` function, returning the `time_bins` variable.
 
