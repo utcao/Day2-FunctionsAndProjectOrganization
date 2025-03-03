@@ -35,8 +35,22 @@ output = function_name(val1, arg2=val2)       # Option 3: Mixed Positional and K
 
 ## Instructions
 
-For each code section in the `calculate_psths.py` script:
+1. In the VSCode Terminal, Create a Conda or Pixi environment and install needed dependencies:
+    1. Create the sandbox environment from the dependency files:
+    - Conda: `conda env create -p ./venv -f environment.yaml`
+    - Pixi: `pixi install`
+    2. Activate the Environment in your VSCode termainal:
+    - Conda: `conda activate ./venv`
+    - Pixi: `pixi shell`
+    3. Set up the IPykernel config for VSCode's Interactive Mode to Use:
+    - `python -m ipykernel install --name psth`
 
-  1. Refactor the section into two parts: a function and a call to that function, using
-VSCode's Interactive Mode to test that the section stil works with the modified code.  
-  2. Each time a function is made successfully, make a git commit to save your progress.
+2. Run the `calculate_psths.py` script to make sure it works:
+    - `python calculate_psths.py`  (should see new files appear: `data.nc` and `PSTHs.png`)
+
+
+3. For each code section in the `calculate_psths.py` script:
+
+    1. Refactor the section into two parts: a function and a call to that function, using
+    VSCode's Interactive Mode to test that the section stil works with the modified code.  
+    2. Each time a function is made successfully, make a git commit to save your progress.
