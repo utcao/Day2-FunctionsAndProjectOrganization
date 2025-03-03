@@ -1,0 +1,14 @@
+
+# pixi environments
+.pixi
+*.egg-info
+pixi.lock
+
+# virtual environments
+venv
+
+# Data files
+*.nc
+
+# Results
+PSTHs.png
