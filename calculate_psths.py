@@ -7,41 +7,23 @@ filename = 'data.nc'
 # %% Download Data
 # Exercise (Example): Make a download_data(url, filename) function:
 
-def download_data(url, filename):
-    from pathlib import Path
-    import owncloud
-
-    client = owncloud.Client.from_public_link(url)
-    client.get_file('/', filename)
-
-    if Path(filename).exists():
-        print('Download Succeeded.')
-
-    return None
-
+from scripts.utils import download_data   
 
 download_data(url=url, filename=filename)
 
 # %% Load Data
 # Exercise: Make a `load_data(filename)` function, returning the `dset` variable.
-
-
-
+from scripts.utils import load_data
+dset = load_data(filename)
+print(dset)
 # %% Extract Experiment-Level Data
 # Exercise: Make an `extract_trials(filename)` function, returning the `trials` variable.
-
-import xarray as xr
-
-dset = xr.load_dataset(filename)
-trials = dset[['contrast_left', 'contrast_right', 'stim_onset']].to_dataframe()
-trials
-
+from scripts.utils import extract_trials
+trials = extract_trials(filename)
+print(trials)
 # %% Extract Spike-Time Data
 # Exercise: Make an `extract_spikes(filename)` function, returning the `spikes` variable.
-
-import xarray as xr
-
-dset = xr.load_dataset(filename)
+dset = load_data(filename)
 spikes = dset[['spike_trial', 'spike_cell', 'spike_time']].to_dataframe()
 spikes
 
@@ -51,38 +33,14 @@ spikes
 
 import xarray as xr
 
-dset = xr.load_dataset(filename)
+dset = load_data(filename)
 cells = dset['brain_groups'].to_dataframe()
 cells
 
 # %% Merge and Compress Extracted Data
 # Exercise: Make a `merge_data(trials, cells, spikes)` function, returning the `merged` variable.
-
-import pandas as pd
-merged = pd.merge(left=cells, left_index=True, right=spikes, right_on='spike_cell')
-merged = pd.merge(left=trials, right=merged, left_index=True, right_on='spike_trial').reset_index(drop=True)
-merged.columns
-merged = (merged
-    .rename(columns=dict(
-        brain_groups="brain_area",
-        spike_trial="trial_id",
-        spike_cell="cell_id",
-        spike_time="time"
-    ))
-    [[
-        'trial_id',
-        'contrast_left',
-        'contrast_right',
-        'stim_onset',
-        'cell_id',
-        'brain_area',
-        'time'
-    ]]
-    .astype(dict(   
-        brain_area = 'category',
-    ))
-    # 
-)
+from scripts.utils import self_merge
+merged = self_merge(cells, spikes, trials)
 merged.info()
 
 
@@ -130,9 +88,6 @@ psth
 
 # %% Plot PSTHs
 # Make a `plot_psths(psth)` function here, returning the `g` variable.
-import seaborn as sns
-g = sns.FacetGrid(data=psth, col='brain_area', col_wrap=2)
-g.map_dataframe(sns.lineplot, x='time', y='avg_spike_count', hue='contrast_left')
-g.add_legend()
-g.savefig('PSTHs.png')
+from scripts.utils import plot_psths
+plot_psths(psth)
 
